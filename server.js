@@ -34,6 +34,18 @@ mongoose.connect(DB, {
 //   })
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
+
+//for errors related to our database, eg, if the password for mongoose is wrong
+process.on('unhandledRejection', err => {
+  console.log('UNHANDLED REJECTION! 😈 Shutting Down...');
+   console.log(err);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+
+// console.log(x);
